@@ -3,16 +3,16 @@ $(function() {
   CMS.init({
 
     // Name of your site or location of logo file ,relative to root directory (img/logo.png)
-    siteName: 'My sss',
+    siteName: 'Test',
 
     // Tagline for your site
-    siteTagline: 'Your sss tagline',
+    siteTagline: 'hihihihihi',
 
     // Email address
     siteEmail: 'your_email@example.com',
 
     // Name
-    siteAuthor: 'Your Name',
+    siteAuthor: 'Your cc',
 
     // Navigation items
     siteNavItems: [
@@ -45,7 +45,7 @@ $(function() {
     // If Github mode is set, your Github username and repo name. Defaults
     // to Github pages branch (gh-pages)
     githubUserSettings: {
-      username: 'yourusername',
+      username: 'hi-caicai',
       repo: 'yourrepo'
     }
 
