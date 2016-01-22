@@ -1,0 +1,23 @@
+{
+  "name": "cms.js-themes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hi-caicai/cms.js-themes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hi-caicai/cms.js-themes/issues"
+  },
+  "homepage": "https://github.com/hi-caicai/cms.js-themes#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.3.1"
+  }
+}
