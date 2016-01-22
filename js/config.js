@@ -46,7 +46,7 @@ $(function() {
     // to Github pages branch (gh-pages)
     githubUserSettings: {
       username: 'hi-caicai',
-      repo: 'yourrepo'
+      repo: 'cms.js-themes'
     }
 
   });
