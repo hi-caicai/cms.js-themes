@@ -17,7 +17,7 @@ If you want to check in the local environment
 Server started http://localhost:8080
 
 
-If you want to use the theme,Please put the 'style.css' and 'index.html' in your blog
+If you want to use the theme, Please put the 'style.css' and 'index.html' in your blog or create a new branch from your master or working branch called gh-pages ,upload all the files
 
 
 
