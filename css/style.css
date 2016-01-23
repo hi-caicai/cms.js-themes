@@ -97,6 +97,7 @@ a:hover{
 }
 .post-content p{
 	color:#353535;
+	font-size: 16px;
 }
 /* footer style */
 
@@ -105,7 +106,58 @@ a:hover{
 	margin: 0 auto;
 	text-align: center;
 	padding: 100px 0px 50px 0px;
+
 }
 .cms_footer_text{
 	color:#999;
+    -moz-transition: all 0.5s ease-in;
+    -webkit-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+
 }
+/* markdown style */
+pre{
+	display: block;
+	margin-top:0;
+	margin-bottom:20px;
+	padding:20px;
+	white-space:pre;
+	white-space:pre-wrap;
+	word-break: breal-all;
+	word-wrap: break-word;
+}
+code{
+	padding:20px;
+	border-radius: 4px;
+}
+pre code{
+	padding: 0;
+}
+/* mobie style */
+
+@media screen and (max-width: 768px) {
+.cms_nav{
+	width: 80%;
+}
+.masthead-title{
+	width: 80%;
+}
+.masthed-description{
+	width: 80%;
+}
+.cms_main{
+	width: 80%;
+}
+.cms_footer{
+	width: 80%;
+}
+.post-content p{
+	font-size: 14px;
+}
+.post-content img{
+	max-width: 100%;
+}
+}
+
+

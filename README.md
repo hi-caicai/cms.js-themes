@@ -1,5 +1,6 @@
 
-### The simple theme for cms.js
+
+### The simple theme for [cms.js](https://github.com/cdmedia/cms.js)
 
 ![2016-01-23 9 38 30](https://cloud.githubusercontent.com/assets/1811819/12527406/26fe2890-c1b5-11e5-83cc-cbfad7eab516.png)
 
