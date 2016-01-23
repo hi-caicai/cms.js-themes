@@ -3,21 +3,22 @@ $(function() {
   CMS.init({
 
     // Name of your site or location of logo file ,relative to root directory (img/logo.png)
-    siteName: 'Test',
+    siteName: 'CMS.JS THEMES',
 
     // Tagline for your site
-    siteTagline: 'hihihihihi',
+    siteTagline: ' The simple theme for cms.js',
 
     // Email address
     siteEmail: 'your_email@example.com',
 
     // Name
-    siteAuthor: 'Your cc',
+    siteAuthor: 'CaiCai',
 
     // Navigation items
     siteNavItems: [
-      { name: 'Github', href: 'https://github.com/hi-caicai', newWindow: false},
-      { name: 'About'}
+      { name: 'About'},
+      { name: 'Github', href: 'https://github.com/hi-caicai', newWindow: false}
+
     ],
 
     // Posts folder name

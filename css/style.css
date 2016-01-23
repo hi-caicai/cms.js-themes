@@ -1,0 +1,99 @@
+html{
+	font-family:'PingHei', 'PingFang SC', Helvetica Neue , 'Work Sans', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
+}
+body{
+	margin: 0;
+}
+h1,h2,h3,h4,h5{
+	margin: 0;
+}
+a{
+	text-decoration:none;
+	color:#00ab6b;
+}
+a:hover{
+	text-decoration:underline;
+}
+.content{
+	width: 100%;
+	margin: 0 auto;
+}
+
+/* header style */
+
+.masthead{
+	height: 500px;
+	width: 100%;
+	background-image: url(https://images.unsplash.com/photo-1439565983992-3ee6dd957b9c?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=0397fa9c06684c18d0cc43965d327dc7);
+	position: absolute;
+	top:0;
+	left:0;
+	right: 0;
+	background-size: cover;
+	background-position: center;
+}
+.cms_nav{
+	width: 860px;
+	margin: 0 auto;
+}
+.cms_nav ul{
+	float: right;
+}
+.cms_nav li{
+	display: inline;
+}
+.cms_nav a{
+	color: #fff;
+	padding-left: 20px;
+}
+.cms_nav a:hover{
+	text-decoration: underline;
+}
+.masthead-title{
+	padding-top: 300px;
+	width: 860px;
+	margin: 0 auto;
+}
+.masthead-title a{
+	font-size: 32px;
+	color: #fff;
+}
+.masthead-title a:hover{
+	text-decoration:underline;
+}
+.masthed-description{
+	width: 860px;
+	margin: 0 auto;
+	padding-top: 40px;
+	color:#fff;
+}
+.cms_sitename{
+	float: left;
+}
+.cms_main {
+	padding-top: 550px;
+	width: 860px;
+	margin: 0 auto;
+}
+/* posts style */
+.post{
+	margin: 50px 0px 50px 0px;
+}
+.post-title a{
+	color: #333;
+	font-size: 26px;
+}
+.post-date{
+	color: #989898;
+	font-size: 14px;
+}
+.post-content{
+	line-height: 26px;
+	letter-spacing: 0.6px;
+}
+.cms_footer{
+	width: 860px;
+	margin: 0 auto;
+	text-align: center;
+	padding: 100px 0px 50px 0px;
+}
