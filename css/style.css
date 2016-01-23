@@ -14,6 +14,7 @@ a{
 a:hover{
 	text-decoration:underline;
 }
+
 .content{
 	width: 100%;
 	margin: 0 auto;
@@ -91,9 +92,20 @@ a:hover{
 	line-height: 26px;
 	letter-spacing: 0.6px;
 }
+.post-content img{
+	max-width: 860px;
+}
+.post-content p{
+	color:#353535;
+}
+/* footer style */
+
 .cms_footer{
 	width: 860px;
 	margin: 0 auto;
 	text-align: center;
 	padding: 100px 0px 50px 0px;
+}
+.cms_footer_text{
+	color:#999;
 }

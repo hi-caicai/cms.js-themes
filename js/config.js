@@ -37,7 +37,7 @@ $(function() {
     fadeSpeed: 300,
 
     // Site footer text
-    footerText: '&copy; ' + new Date().getFullYear() + ' All Rights Reserved.',
+    footerText:'Designed and Coded by CaiCai',
 
     // Mode 'Github' for Github Pages, 'Apache' for Apache server. Defaults
     // to Github
