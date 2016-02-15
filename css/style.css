@@ -25,7 +25,7 @@ a:hover{
 .masthead{
 	height: 500px;
 	width: 100%;
-	background-image: url(https://images.unsplash.com/photo-1439565983992-3ee6dd957b9c?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&w=1080&fit=max&s=0397fa9c06684c18d0cc43965d327dc7);
+	background-image: url(https://images.unsplash.com/photo-1451444635319-e5e247fbb88d?crop=entropy&dpr=2&fit=crop&fm=jpg&h=1200&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1425);
 	position: absolute;
 	top:0;
 	left:0;
@@ -36,6 +36,7 @@ a:hover{
 .cms_nav{
 	width: 860px;
 	margin: 0 auto;
+	padding-top: 40px;
 }
 .cms_nav ul{
 	float: right;
@@ -51,12 +52,12 @@ a:hover{
 	text-decoration: underline;
 }
 .masthead-title{
-	padding-top: 300px;
+	padding-top: 260px;
 	width: 860px;
 	margin: 0 auto;
 }
 .masthead-title a{
-	font-size: 32px;
+	font-size: 42px;
 	color: #fff;
 }
 .masthead-title a:hover{
@@ -65,7 +66,7 @@ a:hover{
 .masthed-description{
 	width: 860px;
 	margin: 0 auto;
-	padding-top: 40px;
+	padding-top: 50px;
 	color:#fff;
 }
 .cms_sitename{

@@ -5,6 +5,7 @@
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  */
+'use strict';
 
 var CMS = {
 
@@ -23,10 +24,13 @@ var CMS = {
     postSnippetLength: 120,
     pagesFolder: 'pages',
     fadeSpeed: 300,
-    mainContainer: $('.cms_main'),
-    footerContainer: $('.cms_footer'),
+    mainContainer: $(document.getElementsByClassName('cms_main')),
+    footerContainer: $(document.getElementsByClassName('cms_footer')),
     footerText: '&copy; ' + new Date().getFullYear() + ' All Rights Reserved.',
     parseSeperator: '---',
+    postsOnFrontpage: true,
+    pageAsFrontpage: '',
+    postsOnUrl: '',
     loader: '<div class="loader">Loading...</div>',
     get siteAttributes() {
       return [
@@ -71,20 +75,21 @@ var CMS = {
     CMS.settings.footerContainer.hide();
 
     var type = url.split('/')[0];
+
     var map = {
 
-      // Main view
+      // Main view / Frontpage
       '' : function () {
-        CMS.renderPosts();
+          CMS.renderPosts();
       },
 
-      // Post view
+      // Post view / single view
       '#post' : function () {
         var id = url.split('#post/')[1].trim();
         CMS.renderPost(id);
       },
 
-      // Post view
+      // Page view
       '#page' : function () {
         var title = url.split('#page/')[1].trim();
         CMS.renderPage(title);
@@ -95,17 +100,18 @@ var CMS = {
     if (map[type]) {
       map[type]();
     } else {
+      // Error view
       var errorMsg = 'Error loading page.';
       CMS.renderError(errorMsg);
     }
   },
 
   renderPage: function (title) {
-    CMS.pages.sort(function (a,b) { return CMS.settings.sortDateOrder ? b.date - a.date : a.date - b.date; });
-    CMS.pages.forEach(function (page){
+    CMS.pages.sort(function (a, b) { return CMS.settings.sortDateOrder ? b.date - a.date : a.date - b.date; });
+    CMS.pages.forEach(function (page) {
       if (page.title == title) {
 
-        var tpl = $('#page-template').html(),
+        var tpl = $(document.getElementById('page-template')).html(),
           $tpl = $(tpl);
 
         $tpl.find('.page-title').html(page.title);
@@ -118,10 +124,10 @@ var CMS = {
   },
 
   renderPost: function (id) {
-    CMS.posts.forEach(function (post){
+    CMS.posts.forEach(function (post) {
       if (post.id == id) {
 
-        var tpl = $('#post-template').html(),
+        var tpl = $(document.getElementById('post-template')).html(),
           $tpl = $(tpl);
 
         $tpl.find('.post-title').html(post.title);
@@ -135,9 +141,9 @@ var CMS = {
   },
 
   renderPosts: function () {
-    CMS.posts.sort(function (a,b) { return CMS.settings.sortDateOrder ? b.date - a.date : a.date - b.date; });
-    CMS.posts.forEach(function (post){
-      var tpl = $('#post-template').html(),
+    CMS.posts.sort(function (a, b) { return CMS.settings.sortDateOrder ? b.date - a.date : a.date - b.date; });
+    CMS.posts.forEach(function (post) {
+      var tpl = $(document.getElementById('post-template')).html(),
         $tpl = $(tpl);
 
       var title = '<a href="#">' + post.title + '</a>',
@@ -162,19 +168,19 @@ var CMS = {
   },
 
   renderFooter: function () {
-    // Load footer later so things dont look weird loading ajax stuff
+    // Delay footer loading while waiting on ajax requests
     setTimeout(function () {
       CMS.settings.footerContainer.fadeIn(CMS.settings.fadeSpeed);
     }, 800);
   },
 
   renderError: function (msg) {
-    var tpl = $('#error-template').html(),
+    var tpl = $(document.getElementById('error-template')).html(),
       $tpl = $(tpl);
 
     $tpl.find('.error_text').html(msg);
 
-    CMS.settings.mainContainer.html('').fadeOut(CMS.settings.fadeSpeed, function (){
+    CMS.settings.mainContainer.html('').fadeOut(CMS.settings.fadeSpeed, function () {
       CMS.settings.mainContainer.html($tpl).fadeIn(CMS.settings.fadeSpeed);
     });
   },
@@ -188,7 +194,7 @@ var CMS = {
       // Set navigation
       this.setNavigation();
 
-          // Manually trigger on initial load
+      // Manually trigger on initial load
       $(window).trigger('hashchange');
     }
   },
@@ -219,18 +225,20 @@ var CMS = {
       }
     });
 
-    // Drop stuff we dont need
-    data.splice(0,2);
+    // Drop data we don't need
+    data.splice(0, 2);
 
     // Put everything back together if broken
     var contentData = data.join();
     contentObj.contentData = marked(contentData);
 
-
-    if (type == 'post') {
-      CMS.posts.push(contentObj);
-    } else if (type == 'page') {
-      CMS.pages.push(contentObj);
+    switch(type) {
+      case 'post':
+        CMS.posts.push(contentObj);
+        break;
+      case 'page':
+        CMS.pages.push(contentObj);
+        break;
     }
 
     // Execute after all content is loaded
@@ -241,7 +249,8 @@ var CMS = {
 
   getContent: function (type, file, counter, numFiles) {
 
-    var urlFolder = '';
+    var urlFolder = '',
+      url;
 
     switch(type) {
       case 'post':
@@ -255,7 +264,7 @@ var CMS = {
     if (CMS.settings.mode == 'Github') {
       url = file.link;
     } else {
-      url = urlFolder + '/' + file.name;
+      url = file.name.indexOf(urlFolder) > -1 ? file.name : urlFolder + '/' + file.name;
     }
 
     $.ajax({
@@ -299,7 +308,8 @@ var CMS = {
       success: function (data) {
 
         var files = [],
-          linkFiles;
+          linkFiles,
+          dateParser = /\d{4}-\d{2}(?:-d{2})?/; // can parse both 2016-01 and 2016-01-01
 
         if (CMS.settings.mode == 'Github') {
           linkFiles = data;
@@ -319,9 +329,9 @@ var CMS = {
             filename = $(f).attr('href');
           }
 
-          if (filename.endsWith('.md')) {
+          if (filename.split('.').pop() === 'md') {
             var file = {};
-            file.date = new Date(filename.substring(0, 10));
+            file.date = new Date(dateParser.test(filename) && dateParser.exec(filename)[0]);
             file.name = filename;
             if (downloadLink) {
               file.link = downloadLink;
@@ -334,11 +344,11 @@ var CMS = {
         var counter = 0,
           numFiles = files.length;
 
-        if (files.length > 0) {
-          $(files).each(function (k, file) {
+        if (numFiles > 0) {
+          for (var file of files) {
             counter++;
             CMS.getContent(type, file, counter, numFiles);
-          });
+          }
         } else {
           var errorMsg = 'Error loading ' + type + 's in directory. Make sure ' +
             'there are Markdown ' + type + 's in the ' + type + 's folder.';
@@ -351,9 +361,9 @@ var CMS = {
           errorMsg = 'Error loading ' + type + 's directory. Make sure ' +
             'your Github settings are correctly set in your config.js file.';
         } else {
-          errorMsg = 'Error loading ' + type + 's directory. Make sure ' +
-            type + 's directory is set correctly in config and .htaccess is in ' +
-            type + 's directory with Apache "Options Indexes" set on.';
+          errorMsg = 'Error loading the ' + type + 's directory. Make sure ' +
+            'the ' + type + 's directory is set correctly in config and  ' +
+            'the ' + type + 's directory indexing feature is enabled.';
         }
         CMS.renderError(errorMsg);
       }
@@ -362,36 +372,34 @@ var CMS = {
 
   setNavigation: function () {
 
-    var nav = '<ul>';
+    var navBuilder = ['<ul>'];
     CMS.settings.siteNavItems.forEach(function (navItem) {
       if (navItem.hasOwnProperty('href')) {
-        nav += '<li><a href="' +  navItem.href + '"';
-        if (navItem.hasOwnProperty('newWindow')) {
-          if (navItem.newWindow) {
-            nav += 'target="_blank"';
-          }
+        navBuilder.push('<li><a href="', navItem.href, '"');
+        if (navItem.hasOwnProperty('newWindow') && navItem.newWindow) {
+          navBuilder.push('target="_blank"');
         }
-        nav += '>' + navItem.name + '</a></li>';
+        navBuilder.push('>', navItem.name, '</a></li>');
       } else {
         CMS.pages.forEach(function (page) {
           if (navItem.name == page.title) {
-            nav += '<li><a href="#" class="cms_nav_link" id="' + navItem.name + '">' + navItem.name + '</a></li>';
+            navBuilder.push('<li><a href="#" class="cms_nav_link" id="', navItem.name, '">', navItem.name, '</a></li>');
           }
         });
       }
     });
-    nav += '</ul>';
+    navBuilder.push('</ul>');
+    var nav = navBuilder.join('');
 
-    $('.cms_nav').html(nav).hide().fadeIn(CMS.settings.fadeSpeed);
+    $(document.getElementsByClassName('cms_nav')).html(nav);
 
     // Set onclicks for nav links
-    $.each($('.cms_nav_link'), function (k, link) {
-      var title =  $(this).attr('id');
+    $.each($(document.getElementsByClassName('cms_nav_link')), function (k, link) {
+      var title = $(this).attr('id');
       $(this).on('click', function (e) {
         e.preventDefault();
         window.location.hash = 'page/' + title;
       });
-
     });
   },
 
@@ -401,12 +409,8 @@ var CMS = {
       var value;
 
       // Set brand
-      if (attribute.attr == '.cms_sitename') {
-        if (attribute.value.match(/\.(jpeg|jpg|gif|png)$/)) {
-                value = '<img src="' + attribute.value + '" />';
-            } else {
-                value = attribute.value;
-            }
+      if (attribute.attr == '.cms_sitename' && attribute.value.match(/\.(jpeg|jpg|gif|png)$/)) {
+        value = '<img src="' + attribute.value + '" />';
       } else {
         value = attribute.value;
       }
@@ -420,18 +424,18 @@ var CMS = {
 
     var types = ['post', 'page'];
 
-    types.forEach(function (type){
+    types.forEach(function (type) {
       CMS.getFiles(type);
     });
 
     // Check for hash changes
-        $(window).on('hashchange', function () {
-            CMS.render(window.location.hash);
-        });
+    $(window).on('hashchange', function () {
+      CMS.render(window.location.hash);
+    });
   },
 
   init: function (options) {
-    if ($.isPlainObject(options)) {
+    if (!(options instanceof Array)) {
       return this.extend(this.settings, options, function () {
         CMS.generateSite();
       });
@@ -439,4 +443,3 @@ var CMS = {
   }
 
 };
-
